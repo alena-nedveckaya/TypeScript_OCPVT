@@ -19,7 +19,6 @@ class Scale {
     getNameList():void{
         console.log(this.products)
     }
-
 }
 
 class Product {
