@@ -11,17 +11,22 @@ var __extends = (this && this.__extends) || (function () {
 var Scale = /** @class */ (function () {
     function Scale() {
         this.products = [];
-        this.totalWeight = 0;
     }
     Scale.prototype.add = function (_product) {
-        this.products.push(_product.getName());
-        this.totalWeight += _product.getScale();
+        this.products.push(_product);
     };
     Scale.prototype.getSumScale = function () {
-        console.log(this.totalWeight);
+        var totalWeight = 0;
+        this.products.forEach(function (v, i) {
+            totalWeight += v.weight;
+        });
+        console.log(totalWeight);
     };
     Scale.prototype.getNameList = function () {
-        console.log(this.products);
+        var names = this.products.map(function (v, i) {
+            return v.name;
+        });
+        console.log(names);
     };
     return Scale;
 }());
@@ -61,9 +66,10 @@ var redApple = new Apple('красное яблоко', 200, 'сладкое');
 var greenApple = new Apple('зеленое яблоко', 450, 'кислое');
 var tomatCherry = new Tomato('томат черри', 300);
 var scale = new Scale();
-redApple.getName();
+// redApple.getName();
 redApple.getTaste();
 greenApple.getTaste();
+// tomatCherry.getScale();
 scale.add(redApple);
 scale.add(greenApple);
 scale.add(tomatCherry);

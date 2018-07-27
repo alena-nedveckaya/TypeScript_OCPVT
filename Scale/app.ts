@@ -1,71 +1,82 @@
 class Scale {
 
-    products:Array<string>;
-    totalWeight:number;
+    products: Array<any>;
 
-    constructor(){
+
+    constructor() {
         this.products = [];
-        this.totalWeight = 0;
-
     }
 
-    add(_product:Product):void{
-        this.products.push(_product.getName())
-        this.totalWeight += _product.getScale();
+    add(_product: Product): void {
+        this.products.push(_product);
     }
-    getSumScale():void{
-        console.log(this.totalWeight)
-}
-    getNameList():void{
-        console.log(this.products)
+
+    getSumScale(): void {
+        let totalWeight: number = 0;
+        this.products.forEach((v, i) => {
+                totalWeight += v.weight;
+            }
+        );
+        console.log(totalWeight)
+    }
+
+    getNameList(): void {
+        let names: Array<string> = this.products.map((v, i) => {
+                return v.name;
+            }
+        );
+        console.log(names)
     }
 }
 
 class Product {
 
-    name:string;
-    weight:number;
+    name: string;
+    weight: number;
 
-    constructor(_name:string, _weight:number) {
-        this.name=_name;
-        this.weight=_weight;
+    constructor(_name: string, _weight: number) {
+        this.name = _name;
+        this.weight = _weight;
     }
 
-    getName():string{
-        return  this.name
+    getName(): string {
+        return this.name
     }
-    getScale():number{
+
+    getScale(): number {
         return this.weight
     }
 }
 
-class Apple extends Product{
+class Apple extends Product {
 
-    taste:string;
+    taste: string;
 
-    constructor(name, weight, _taste){
+    constructor(name, weight, _taste) {
         super(name, weight);
-        this.taste= _taste
+        this.taste = _taste
     }
-    getTaste():void{
+
+    getTaste(): void {
         console.log(this.taste)
     }
 }
 
-class Tomato extends Product{
+class Tomato extends Product {
 
-    constructor(name, weight){
+    constructor(name, weight) {
         super(name, weight)
     }
 }
 
-let redApple:Apple=new Apple('красное яблоко',200, 'сладкое');
-let greenApple:Apple = new Apple('зеленое яблоко', 450, 'кислое');
-let tomatCherry:Tomato = new Tomato('томат черри', 300)
-let scale:Scale=new Scale();
-redApple.getName();
+let redApple: Apple = new Apple('красное яблоко', 200, 'сладкое');
+let greenApple: Apple = new Apple('зеленое яблоко', 450, 'кислое');
+let tomatCherry: Tomato = new Tomato('томат черри', 300)
+let scale: Scale = new Scale();
+// redApple.getName();
 redApple.getTaste();
 greenApple.getTaste();
+// tomatCherry.getScale();
 scale.add(redApple);
 scale.add(greenApple);
 scale.add(tomatCherry);
