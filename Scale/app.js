@@ -21,12 +21,14 @@ var Scale = /** @class */ (function () {
             totalWeight += v.weight;
         });
         console.log(totalWeight);
+        return totalWeight;
     };
     Scale.prototype.getNameList = function () {
         var names = this.products.map(function (v, i) {
             return v.name;
         });
         console.log(names);
+        return names;
     };
     return Scale;
 }());

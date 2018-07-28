@@ -11,21 +11,23 @@ class Scale {
         this.products.push(_product);
     }
 
-    getSumScale(): void {
+    getSumScale(): number {
         let totalWeight: number = 0;
         this.products.forEach((v, i) => {
                 totalWeight += v.weight;
             }
         );
-        console.log(totalWeight)
+        console.log(totalWeight);
+        return totalWeight
     }
 
-    getNameList(): void {
+    getNameList(): Array<string> {
         let names: Array<string> = this.products.map((v, i) => {
                 return v.name;
             }
         );
-        console.log(names)
+        console.log(names);
+        return names
     }
 }
 
