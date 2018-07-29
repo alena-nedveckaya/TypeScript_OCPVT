@@ -1,6 +1,6 @@
 class Scale {
 
-    products: Array<{name:string, weight:number}>
+    products: Array<Product>
 
 
     constructor() {
