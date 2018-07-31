@@ -5,11 +5,8 @@ interface IScalable {
 
 interface IStorageEngine {
     addItem(Product): void;
-
-    getItem(number):Object;
-    getCount():number;
-    getNames():Array<string>
-
+    getItem(number):Product;
+    getCount():Array<Product>;
 }
 
 class ScalesStorageEngineArray implements IStorageEngine {
@@ -22,22 +19,13 @@ class ScalesStorageEngineArray implements IStorageEngine {
     addItem(product: Product): Array<Product> {
         this.storage.push(product);
         return this.storage;
-
     }
     getItem(_num:number):Product {
         return this.storage[_num]
     }
-    getCount():number{
-        let count:number= 0;
-        this.storage.forEach(v => count += v.weight);
-        return count;
+    getCount():Array<Product>{
+        return this.storage;
     }
-    getNames():Array<string>{
-        let names :Array<string> = [];
-        this.storage.forEach(v => names.push(v.name))
-        return names
-    }
-
 }
 
 class ScalesStorageEngineLocalStorage implements IStorageEngine{
@@ -54,17 +42,10 @@ class ScalesStorageEngineLocalStorage implements IStorageEngine{
         return  JSON.parse(localStorage.getItem('products'))[_num]
     }
 
-    getCount():number{
+    getCount():Array<Product>{
+        return JSON.parse(localStorage.getItem('products'));
+    }
 
-        let count:number = 0;
-        JSON.parse(localStorage.getItem('products')).forEach((v) => count+=v.weight);
-        return count
-    }
-    getNames():Array<string>{
-        let names :Array<string> =[];
-        JSON.parse(localStorage.getItem('products')).forEach(v => names.push(v.name));
-        return names
-    }
 }
 
 
@@ -81,11 +62,17 @@ class Scale<StorageEngine extends IStorageEngine> {
     }
 
     getSumScale(): number {
-        return this.storage.getCount()
+        let storage = this.storage.getCount();
+        let total = 0;
+        storage.forEach(v => total += v.weight)
+        return total
     }
 
-    getNameList(): Array<string> {
-        return this.storage.getNames()
+    getNameList():Array<string>{
+        let names :Array<string> =[];
+        let storage = this.storage.getCount();
+        storage.forEach(v => names.push(v.name));
+        return names
     }
 }
 
@@ -134,7 +121,7 @@ scaleArray.addItem(apple);
 scaleArray.addItem(cherry);
 scaleArray.addItem(pineapple);
 
-let namesArr = scaleArray.getNameList();
+let namesArr = scaleLocalStorage.getNameList()
 let indArr = scalesStorageEngineArray.getItem(2)
 
 let totalArray = scaleArray.getSumScale();
