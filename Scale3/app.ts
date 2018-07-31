@@ -24,7 +24,7 @@ class ScalesStorageEngineArray implements IStorageEngine {
         return this.storage;
 
     }
-    getItem(_num:number):Object {
+    getItem(_num:number):Product {
         return this.storage[_num]
     }
     getCount():number{
@@ -41,34 +41,28 @@ class ScalesStorageEngineArray implements IStorageEngine {
 }
 
 class ScalesStorageEngineLocalStorage implements IStorageEngine{
-    storage: Array<Product>;
-    localStorage:Array<Product>;
 
-    constructor(){
-        this.storage = [];
-        this.localStorage =  JSON.parse(localStorage.getItem('products'));
-    }
-
-    addItem(_product:Product):Array<Object> {
-        this.storage.push(_product);
-        localStorage.setItem('products', JSON.stringify(this.storage));
-        return this.storage
+    addItem(_product:Product):void {
+        let local =  JSON.parse(localStorage.getItem('products'))
+        local.push(_product);
+        localStorage.setItem('products', JSON.stringify(local));
+        return
 
     }
 
-    getItem(_num:number): Object{
-        return this.localStorage[_num]
+    getItem(_num:number): Product{
+        return  JSON.parse(localStorage.getItem('products'))[_num]
     }
 
     getCount():number{
 
-        let count:number = 0
-        this.localStorage.forEach((v) => count+=v.weight);
+        let count:number = 0;
+        JSON.parse(localStorage.getItem('products')).forEach((v) => count+=v.weight);
         return count
     }
     getNames():Array<string>{
         let names :Array<string> =[];
-        this.storage.forEach(v => names.push(v.name))
+        JSON.parse(localStorage.getItem('products')).forEach(v => names.push(v.name));
         return names
     }
 }
@@ -113,22 +107,25 @@ class Product implements IScalable {
         return this.weight
     }
 }
+function clearLocalStorage():void{
+    localStorage.setItem('products', JSON.stringify([]))
+};
+clearLocalStorage();
 
 
-
-let storageLocalStorage = new ScalesStorageEngineLocalStorage()
+let storageLocalStorage = new ScalesStorageEngineLocalStorage();
 let scaleLocalStorage = new Scale<ScalesStorageEngineLocalStorage>(storageLocalStorage);
 let apple: Product = new Product('apple', 200);
 let tomato: Product = new Product('tomato', 250);
 let cherry:Product = new Product('cherry', 300);
-let pineapple:Product = new Product('pineapple',700)
+let pineapple:Product = new Product('pineapple',700);
 
 scaleLocalStorage.addItem(tomato);
 scaleLocalStorage.addItem(apple);
-let ind = storageLocalStorage.getItem(1)
+let ind = storageLocalStorage.getItem(1);
 let total = scaleLocalStorage.getSumScale();
 let names = scaleLocalStorage.getNameList();
-console.log('LocalStorage','total',total,'names', names, 'getItem',ind )
+console.log('LocalStorage','total',total,'names', names, 'getItem',ind );
 
 
 let scalesStorageEngineArray = new ScalesStorageEngineArray();
@@ -143,5 +140,3 @@ let indArr = scalesStorageEngineArray.getItem(2)
 let totalArray = scaleArray.getSumScale();
 console.log('storageArr', 'total',totalArray,'names', namesArr, 'getItem',indArr )
 
-// console.log('totalArray',totalArray)
-// scale.getNameList();
