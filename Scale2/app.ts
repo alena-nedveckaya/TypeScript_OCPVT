@@ -5,12 +5,12 @@ interface IScalable {
 
 class Scale {
 
-    products: Array<Product>
+    products: Array<Apple|Tomato>
     constructor() {
         this.products = [];
     }
 
-    add(_product: Product): void {
+    add(_product: Apple|Tomato): void {
         this.products.push(_product);
     }
 
@@ -34,18 +34,22 @@ class Scale {
     }
 }
 
-class Product implements IScalable{
+class Apple implements IScalable {
 
-    name: string;
-    weight: number;
+    taste: string;
+    name:'string';
+    weight:number;
 
-    constructor(_name: string, _weight: number) {
+    constructor(_name, _weight, _taste) {
+        this.taste = _taste;
         this.name = _name;
         this.weight = _weight;
     }
 
+    getTaste(): void {
+        console.log(this.taste)
+    }
     getName(): string {
-        // console.log(this.name)
         return this.name
     }
 
@@ -54,39 +58,38 @@ class Product implements IScalable{
     }
 }
 
-class Apple extends Product {
+class Tomato implements IScalable {
+    name:'string';
+    weight:number;
 
-    taste: string;
+    constructor(_name, _weight) {
 
-    constructor(name, weight, _taste) {
-        super(name, weight);
-        this.taste = _taste
+        this.name = _name;
+        this.weight = _weight;
+    }
+    getName(): string {
+        return this.name
     }
 
-    getTaste(): void {
-        console.log(this.taste)
+    getScale(): number {
+        return this.weight
     }
-}
 
-class Tomato extends Product {
-
-    constructor(name, weight) {
-        super(name, weight)
-    }
 }
 
 let redApple: Apple = new Apple('красное яблоко', 200, 'сладкое');
 let greenApple: Apple = new Apple('зеленое яблоко', 450, 'кислое');
 let tomatCherry: Tomato = new Tomato('томат черри', 300);
-let scale: Scale = new Scale();
-// redApple.getName();
-let nameProd:string = redApple.getName();
-let scaleProd:number = greenApple.getScale();
-console.log(nameProd, scaleProd)
 
-// tomatCherry.getScale();
+let nameProd:string = redApple.getName();
+let weightApple:number = greenApple.getScale();
+let tomatoName:string = tomatCherry.getName();
+console.log('nameProd',nameProd, 'weightApple', weightApple, 'tomatoName', tomatoName);
+
+let scale = new Scale();
 scale.add(redApple);
 scale.add(greenApple);
 scale.add(tomatCherry);
-scale.getSumScale();
-scale.getNameList();
+let sumWeight= scale.getSumScale();
+let names = scale.getNameList();
+console.log('scale', sumWeight, names);
