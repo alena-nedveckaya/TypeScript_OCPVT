@@ -5,7 +5,7 @@ interface IScalable {
 
 class Scale {
 
-    products: Array<Apple|Tomato>
+    products: Array<IScalable>
     constructor() {
         this.products = [];
     }
@@ -17,7 +17,7 @@ class Scale {
     getSumScale(): number {
         let totalWeight: number = 0;
         this.products.forEach((v, i) => {
-                totalWeight += v.weight;
+                totalWeight += v.getScale();
             }
         );
         console.log(totalWeight);
@@ -26,7 +26,7 @@ class Scale {
 
     getNameList(): Array<string> {
         let names: Array<string> = this.products.map((v, i) => {
-                return v.name;
+                return v.getName();
             }
         );
         console.log(names);
