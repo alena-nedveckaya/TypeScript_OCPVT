@@ -10,7 +10,7 @@ class Scale {
         this.products = [];
     }
 
-    add(_product: Apple|Tomato): void {
+    add(_product: IScalable): void {
         this.products.push(_product);
     }
 
